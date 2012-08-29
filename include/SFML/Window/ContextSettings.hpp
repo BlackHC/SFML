@@ -45,12 +45,15 @@ struct ContextSettings
     /// \param minor        Minor number of the context version
     ///
     ////////////////////////////////////////////////////////////
-    explicit ContextSettings(unsigned int depth = 0, unsigned int stencil = 0, unsigned int antialiasing = 0, unsigned int major = 2, unsigned int minor = 0) :
+    explicit ContextSettings(unsigned int depth = 0, unsigned int stencil = 0, unsigned int antialiasing = 0, unsigned int major = 2, unsigned int minor = 0, bool core_profile = false, bool debug = false, bool forward = false) :
     depthBits        (depth),
     stencilBits      (stencil),
     antialiasingLevel(antialiasing),
     majorVersion     (major),
-    minorVersion     (minor)
+    minorVersion     (minor),
+	core_profile     (core_profile),
+	debug_context    (debug),
+	forward_context  (forward)
     {
     }
 
@@ -62,6 +65,10 @@ struct ContextSettings
     unsigned int antialiasingLevel; ///< Level of antialiasing
     unsigned int majorVersion;      ///< Major number of the context version to create
     unsigned int minorVersion;      ///< Minor number of the context version to create
+
+	bool core_profile;
+	bool debug_context;
+	bool forward_context;
 };
 
 } // namespace sf

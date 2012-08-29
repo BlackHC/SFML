@@ -265,11 +265,25 @@ void WglContext::createContext(WglContext* shared, unsigned int bitsPerPixel, co
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
         if (wglCreateContextAttribsARB)
         {
+              /*
+			  * CORE OR COMPATIBILITY PROFILE
+			  */
+            int profile = WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB;
+            int flags = 0;
+            if(settings.core_profile)
+                profile = WGL_CONTEXT_CORE_PROFILE_BIT_ARB;
+            if(settings.debug_context)
+                flags |= WGL_CONTEXT_DEBUG_BIT_ARB;
+            if(settings.forward_context)
+                flags |= WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB;
+            //end
+
             int attributes[] =
             {
                 WGL_CONTEXT_MAJOR_VERSION_ARB, m_settings.majorVersion,
                 WGL_CONTEXT_MINOR_VERSION_ARB, m_settings.minorVersion,
-                WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
+                WGL_CONTEXT_PROFILE_MASK_ARB, profile,
+				WGL_CONTEXT_FLAGS_ARB, flags,
                 0, 0
             };
             m_context = wglCreateContextAttribsARB(m_deviceContext, sharedContext, attributes);
