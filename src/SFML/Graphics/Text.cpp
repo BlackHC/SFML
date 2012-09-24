@@ -40,7 +40,7 @@ m_font         (&Font::getDefaultFont()),
 m_characterSize(30),
 m_style        (Regular),
 m_color        (255, 255, 255),
-m_vertices     (Quads),
+m_vertices     (Quads, 16 * 4 + 4), // 16 characters by default and underline support
 m_bounds       ()
 {
 
@@ -54,7 +54,7 @@ m_font         (&font),
 m_characterSize(characterSize),
 m_style        (Regular),
 m_color        (255, 255, 255),
-m_vertices     (Quads),
+m_vertices     (Quads, 4 * string.getSize()),
 m_bounds       ()
 {
     updateGeometry();
@@ -228,6 +228,9 @@ void Text::updateGeometry()
 
     // Clear the previous geometry
     m_vertices.clear();
+    // Reserve space for our vertices
+    // 4 per character + 4 per underline -> worst case X\nX\n..., so 4 * (string length + 1)
+    m_vertices.reserve( 4 * m_string.getSize() + 4 );
 
     // No text: nothing to draw
     if (m_string.isEmpty())

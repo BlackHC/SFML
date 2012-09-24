@@ -147,4 +147,9 @@ void VertexArray::draw(RenderTarget& target, RenderStates states) const
         target.draw(&m_vertices[0], static_cast<unsigned int>(m_vertices.size()), m_primitiveType, states);
 }
 
+///////////////////////////////////////////////////////////
+void VertexArray::reserve( unsigned int maxVertexCount ) {
+	m_vertices.reserve( maxVertexCount );
+}
+
 } // namespace sf
