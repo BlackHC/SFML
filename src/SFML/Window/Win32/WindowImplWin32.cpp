@@ -870,6 +870,12 @@ LRESULT CALLBACK WindowImplWin32::globalOnEvent(HWND handle, UINT message, WPARA
     // We don't forward the WM_CLOSE message to prevent the OS from automatically destroying the window
     if (message == WM_CLOSE)
         return 0;
+    //////////////////////////////////////////////////////////////////////////
+    // http://en.sfml-dev.org/forums/index.php?topic=2910.0 [9/30/2012 kirschan2]
+    // Ignoring Alt key system message (Added)
+    if (message == WM_SYSCOMMAND && wParam == SC_KEYMENU)
+        return 0;
+    //////////////////////////////////////////////////////////////////////////
 
     static const bool hasUnicode = hasUnicodeSupport();
     return hasUnicode ? DefWindowProcW(handle, message, wParam, lParam) :
